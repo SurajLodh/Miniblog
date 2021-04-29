@@ -3,6 +3,10 @@ body {
     color: antiquewhite;
 }
 
+.form-control {
+    background-color :rgb(167, 160, 160)
+}
+
 .jumbo-color {
     background-color :rgb(83, 81, 81)
 }
