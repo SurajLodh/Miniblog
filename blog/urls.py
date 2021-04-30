@@ -11,4 +11,7 @@ urlpatterns = [
     path('logout/', views.User_Logout, name='logout'),
     path('signup/', views.User_Signup, name='signup'),
     path('login/', views.User_Login, name='login'),
+    path('addpost/', views.Add_blog, name='addpost'),
+    path('update/<int:id>/', views.Update_blog, name='update'),
+    path('delete/<int:id>/', views.Delete_blog, name='delete'),
 ]
