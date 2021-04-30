@@ -4,16 +4,29 @@
 {% block msg %}
     {% if messages %}
         {% for message in messages %}
-            <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissible fade show" {% endif %}><strong>{{message}}</strong>
+            <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}</p>
+            <!-- <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissible fade show" {% endif %}><strong>{{message}}</strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
+            </div> -->
         {% endfor %}
     {% endif %}
 {% endblock msg %}
 
+{% block side %}
 
+<div class="col-sm-2 text-white my-5 text-center">
+    <h4 class="my-5">Profile</h4>
+    <h5>{{full_name}}</h5>
+    <!-- {% if groups %} -->
+        {% for group in groups %}
+            <p>{{group.name}}</p>
+        {% endfor %}
+    <!-- {% endif %} -->
+</div>
+
+{% endblock side %}
 
 {% block content %}
     <div class="col-sm-10">
@@ -38,10 +51,12 @@
                         <td>{{post.dis}}</td>
                         <td class="text-center">
                             <a href="{% url 'update' post.id %}" class="btn btn-warning btn-sm">Edit</a>
-                            <form action="{% url 'delete' post.id %}" method="POST" class="d-inline">
-                                {% csrf_token %}
-                                <input type="submit" class="btn btn-danger btn-sm" value="Delete">
-                            </form>
+                            {% if perms.blog.delete_Blogs %}
+                                <form action="{% url 'delete' post.id %}" method="POST" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                                </form>
+                            {% endif %}
                         </td>
                     </tr>
                     </tbody>

@@ -17,7 +17,7 @@
             {{fm.label_tag}}  {{fm}}  <small class="text-warning">{{fm.errors|striptags}}</small>
             </div>
         {% endfor %}
-        <p>If you already created ! click here to <a href="/signup">SignUp</a></p>
+        <p>Don't Have an Account ! click here to <a href="/signup">SignUp</a></p>
         <input type="submit" class="btn btn-primary" value="Login">
         {% if form.non_field_errors %}
             {% for error in non_field_errors %}

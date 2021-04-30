@@ -5,6 +5,7 @@ from .forms import SignUpForm, LoginForm, BlogForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import Blogs
+from django.contrib.auth.models import Group
 # Create your views here.
 
 def Home(request):
@@ -17,25 +18,33 @@ def About(request):
 
 def Contact(request):
 
+    # messages.success(request, 'We will respond ASAP ...!!')
     return render(request, 'contact.html')
 
 def Dashboard(request):
     if request.user.is_authenticated:
         posts = Blogs.objects.all()
-        return render(request, 'dashboard.html', {'posts':posts})
+        user = request.user
+        full_name = user.get_full_name()
+        gps = user.groups.all()
+        return render(request, 'dashboard.html', {'posts':posts,'full_name':full_name, 'gps':gps})
     else:
+        messages.success(request, 'Please login ...!!')
         return HttpResponseRedirect('/login')
 
 def User_Logout(request):
     logout(request)
+    messages.success(request, 'You have been successfully logged out ...!!')
     return HttpResponseRedirect('/')
 
 def User_Signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            messages.success(request, 'Welcome...!!')
-            form.save()
+            user = form.save()
+            group = Group.objects.get(name='Author')
+            user.groups.add(group)
+            messages.success(request, 'Successfully Created Please login ...!!')
             return HttpResponseRedirect('/login')
     else:
         form = SignUpForm()
@@ -60,6 +69,7 @@ def User_Login(request):
             form = LoginForm()
         return render(request, 'login.html', {'form':form})
     else:
+        messages.success(request, 'Already login ...!!')
         return HttpResponseRedirect('/dashboard')
 
 def Add_blog(request):
@@ -72,22 +82,40 @@ def Add_blog(request):
                 post = Blogs(title=title, dis=dis)
                 post.save()
                 form = BlogForm()
+                messages.success(request, 'Add Post Successfully ...!!')
+                return HttpResponseRedirect('/dashboard')
         else:
             form = BlogForm()
         return render(request, 'add.html', {'form':form})
     else:
+        messages.success(request, 'Please login ...!!')
         return HttpResponseRedirect('/login')
 
 def Update_blog(request, id):
     if request.user.is_authenticated:
-        form = LoginForm()
+        if request.method == 'POST':
+            obj = Blogs.objects.get(pk=id)
+            form = BlogForm(request.POST, instance=obj)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Updated Successfully ...!!')
+                return HttpResponseRedirect('/dashboard')
+        else:
+            obj = Blogs.objects.get(pk=id)
+            form = BlogForm(instance=obj)
         return render(request, 'update.html', {'form':form})
     else:
+        messages.success(request, 'Please login ...!!')
         return HttpResponseRedirect('/login')
 
 def Delete_blog(request, id):
     if request.user.is_authenticated:
-        form = SignUpForm()
+        if request.method == 'POST':
+            obj = Blogs.objects.get(pk=id)
+            obj.delete()
+            return HttpResponseRedirect('/dashboard')
+        
         return render(request, 'dashboard.html', {'form':form})
     else:
+        messages.success(request, 'Please login ...!!')
         return HttpResponseRedirect('/login')

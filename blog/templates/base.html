@@ -7,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-
     <title>Mini Blog</title>
 </head>
 <body>
@@ -20,17 +18,20 @@
         <div class="row">
             <div class="col-sm-12">
                 {% block msg %}
+
                 {% endblock msg %}
             </div>
         </div>
-
         <div class="row">
+            {% block side %}
+
+            {% endblock side %}
+
             {% block content %}
+
             {% endblock content %}
         </div>
     </div>
-
-
 
     <script src="{% static 'js/jquery.js' %}"></script>
     <script src="{% static 'js/popper.js' %}"></script>

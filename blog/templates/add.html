@@ -22,7 +22,7 @@
     <form action="" method="post" novalidate>
       {% csrf_token %}
       {{form.as_p}}
-      <input type="success" value="Add Post" class="btn btn-success">
+      <input type="submit" value="Add Post" class="btn btn-success">
       <a href="{% url 'dashboard' %}" class='btn btn-danger'>Cancel</a>
     </form>
 </div>
