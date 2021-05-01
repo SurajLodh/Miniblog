@@ -10,22 +10,23 @@
         <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}</p>
     {% endfor %}
     {% endif %}
-    <form action ="" method="POST">
-        {% csrf_token %}
-        {% for fm in form %}
-            <div class="form-group">
-            {{fm.label_tag}}  {{fm}}  <small class="text-warning">{{fm.errors|striptags}}</small>
-            </div>
-        {% endfor %}
-        <p>Don't Have an Account ! click here to <a href="/signup">SignUp</a></p>
-        <input type="submit" class="btn btn-primary" value="Login">
-        {% if form.non_field_errors %}
-            {% for error in non_field_errors %}
-            <p class="alert alert-danger my-3">{{error}}</p>
-            {% endfor %} 
-        {% endif %}
-    </form>
-
+    <div class="container p-3 my-3 border">
+        <form action ="" method="POST">
+            {% csrf_token %}
+            {% for fm in form %}
+                <div class="form-group">
+                {{fm.label_tag}}  {{fm}}  <small class="text-warning">{{fm.errors|striptags}}</small>
+                </div>
+            {% endfor %}
+            <p>Don't Have an Account ! click here to <a href="/signup">SignUp</a></p>
+            <input type="submit" class="btn btn-primary" value="Login">
+            {% if form.non_field_errors %}
+                {% for error in non_field_errors %}
+                <p class="alert alert-danger my-3">{{error}}</p>
+                {% endfor %} 
+            {% endif %}
+        </form>
+    </div>
 </div>
 
 {% endblock content %}

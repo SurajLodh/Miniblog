@@ -98,7 +98,7 @@ def Update_blog(request, id):
             form = BlogForm(request.POST, instance=obj)
             if form.is_valid():
                 form.save()
-                messages.success(request, 'Updated Successfully ...!!')
+                messages.success(request, 'Successfully Updated...!!')
                 return HttpResponseRedirect('/dashboard')
         else:
             obj = Blogs.objects.get(pk=id)
@@ -113,6 +113,7 @@ def Delete_blog(request, id):
         if request.method == 'POST':
             obj = Blogs.objects.get(pk=id)
             obj.delete()
+            messages.success(request, 'Successfully Deleted...!!')
             return HttpResponseRedirect('/dashboard')
         
         return render(request, 'dashboard.html', {'form':form})
